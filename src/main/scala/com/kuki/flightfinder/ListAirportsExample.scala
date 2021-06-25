@@ -12,9 +12,12 @@ object ListAirportsExample extends App {
     Source.fromResource(path)(Codec.UTF8).getLines
   }
 
+
+
+
   override def run(args: List[String]): URIO[zio.ZEnv, ExitCode] =
     (for {
-      its <- getResource("european_iatas_df.csv")
-      _ <- putStrLn(its.next())
+      airports <- AirportsService.loadAirports()
+      _  <- ZIO.foreach(airports.toList){ case(ita, cityName) => putStrLn(s"$ita: $cityName")}
     } yield 0).exitCode
 }
