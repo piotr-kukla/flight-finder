@@ -7,7 +7,7 @@ import scala.io.{Codec, Source}
 
 object AirportsService {
 
-  def loadAirports(): ZIO[Blocking, Throwable, Map[String, String]] = effectBlocking {
+  def loadAirports(): ZIO[Blocking, Throwable, Map[IATA, CityName]] = effectBlocking {
     Source.fromResource("european_iatas_df.csv")(Codec.UTF8).getLines.toList
       .map(parseAirportLine(_))
       .toMap
