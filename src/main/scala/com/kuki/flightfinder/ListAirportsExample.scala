@@ -12,8 +12,8 @@ object ListAirportsExample extends App {
     val program = for {
       airports <- AirportsService.loadAirports()
       //_  <- ZIO.foreach(airports.toList){ case(iata, cityName) => putStrLn(s"$iata: $cityName")}
-      response <- TimeTableService.loadDestinations(City.Wroclaw.iata)
-      _ <- putStrLn(response)
+      destinations <- TimeTableService.loadDestinations(City.Wroclaw.iata)
+      _ <- putStrLn(destinations.map(destIATA => airports.get(destIATA).getOrElse(destIATA)).mkString("\n"))
     } yield ()
 
     program

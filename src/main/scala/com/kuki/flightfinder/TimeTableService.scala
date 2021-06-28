@@ -8,15 +8,15 @@ import io.circe.generic.auto._
 
 object TimeTableService {
 
-  case class HttpBinResponse(origin: String, headers: Map[String, String])
+  case class FlightPeriod(firstFlightDate: String, lastFlightDate: String, months: Int, monthsFromToday: Int)
 
-  def loadDestinations(from: IATA): ZIO[SttpClient, Throwable, String] = {
+  def loadDestinations(from: IATA): ZIO[SttpClient, Throwable, List[IATA]] = {
     val request = basicRequest
       .get(uri"https://services-api.ryanair.com/timtbl/3/schedules/$from/periods")
-      //.response(asJson[HttpBinResponse])
+      .response(asJson[Map[IATA, FlightPeriod]].getRight)
     for {
       response <- send(request)
-    } yield response.body.toString
+    } yield response.body.keys.toList
   }
 
 }
