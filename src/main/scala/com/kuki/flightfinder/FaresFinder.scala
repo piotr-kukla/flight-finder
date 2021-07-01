@@ -13,6 +13,7 @@ object FaresFinder extends App {
     for {
       _ <- oneWayReport(from, to)
       _ <- oneWayReport(to, from)
+      _ <- putStrLn("**************************************************************************************************")
     } yield ()
   }
 
@@ -20,17 +21,19 @@ object FaresFinder extends App {
     for {
       fares <- FaresService.loadFares(from.iata, to.iata)
       _ <- putStrLn(s"Direction: $from -> $to")
-      _ <- ZIO.foreach(fares)(fare => putStrLn(s"Departure: ${fare.departureDate.get}, Price: ${fare.price.get}"))
-      _ <- putStrLn("**************************************************************************************************")
+      _ <- ZIO.foreach(fares)(fare => putStrLn(s"Departure: ${fare.departureDate.get}, ${fare.price.get}"))
     } yield ()
   }
 
   override def run(args: List[String]): URIO[zio.ZEnv, ExitCode] = {
+
+    val destinations = City.values.filter(_ != City.Wroclaw).toList
+    val destinations2 = List(City.Chania, City.Zadar, City.Alicante)
+
     val program = for {
 
-//      fares <- FaresService.loadFares(City.Wroclaw.iata, City.Chania.iata)
-//      _ <- putStrLn(fares(0).price.get.value + "")
-      _ <- destinationReport(City.Wroclaw, City.Chania)
+      //_ <- destinationReport(City.Wroclaw, City.Chania)
+      _ <- ZIO.foreach(destinations)(destinationReport(City.Wroclaw, _))
     } yield ()
 
     program
