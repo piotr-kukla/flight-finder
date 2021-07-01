@@ -1,9 +1,10 @@
-package com.kuki.flightfinder
+package com.kuki.flightfinder.service
 
-import sttp.client3._
-import sttp.client3.circe._
-import sttp.client3.asynchttpclient.zio._
+import com.kuki.flightfinder.IATA
 import io.circe.generic.auto._
+import sttp.client3._
+import sttp.client3.asynchttpclient.zio._
+import sttp.client3.circe._
 import zio.ZIO
 
 object FaresService {
@@ -19,6 +20,6 @@ object FaresService {
       .response(asJson[HttpResponse].getRight)
     for {
       response <- send(request)
-    } yield response.body.outbound.fares
+    } yield response.body.outbound.fares.filter(_.price.isDefined)
   }
 }

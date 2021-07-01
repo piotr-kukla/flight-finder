@@ -1,11 +1,12 @@
-package com.kuki.flightfinder
+package com.kuki.flightfinder.service
 
+import com.kuki.flightfinder.IATA
 import com.kuki.flightfinder.model.City._
-import zio._
-import sttp.client3._
-import sttp.client3.circe._
-import sttp.client3.asynchttpclient.zio._
 import io.circe.generic.auto._
+import sttp.client3._
+import sttp.client3.asynchttpclient.zio._
+import sttp.client3.circe._
+import zio._
 
 object TimeTableService {
 

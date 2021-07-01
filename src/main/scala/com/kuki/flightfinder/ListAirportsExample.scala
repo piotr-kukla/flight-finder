@@ -1,6 +1,7 @@
 package com.kuki.flightfinder
 
 import com.kuki.flightfinder.model.City
+import com.kuki.flightfinder.service.{AirportsService, FaresService}
 import sttp.client3.asynchttpclient.zio.AsyncHttpClientZioBackend
 import zio._
 import zio.console._
@@ -15,7 +16,7 @@ object ListAirportsExample extends App {
       //destinations <- TimeTableService.loadDestinations(City.Wroclaw.iata)
       //_ <- putStrLn(destinations.map(destIATA => destIATA + ":" + airports.get(destIATA).getOrElse(destIATA)).mkString("\n"))
       fares <- FaresService.loadFares(City.Wroclaw.iata, City.Chania.iata)
-      _ <- putStrLn(fares(2).price.get.value + "")
+      _ <- putStrLn(fares(0).price.get.value + "")
     } yield ()
 
     program

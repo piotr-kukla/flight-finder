@@ -1,5 +1,6 @@
-package com.kuki.flightfinder
+package com.kuki.flightfinder.service
 
+import com.kuki.flightfinder.{CityName, IATA}
 import zio.ZIO
 import zio.blocking.{Blocking, effectBlocking}
 

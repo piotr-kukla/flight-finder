@@ -3,7 +3,9 @@ package com.kuki.flightfinder.model
 import com.kuki.flightfinder.IATA
 
 object City extends Enumeration {
+  type City = Value
   protected case class Val(iata: IATA) extends super.Val
+  implicit def valueToCityVal(x: Value): Val = x.asInstanceOf[Val]
 
   val Wroclaw = Val("WRO")
 
